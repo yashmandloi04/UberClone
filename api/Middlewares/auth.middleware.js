@@ -8,20 +8,20 @@ module.exports.authUser = async (req, res, next) => {
   const token = req.cookies.token || req.header('Authorization')?.replace('Bearer ', '');
 
   const blacklistToken = await blacklistTokenModel.findOne({ token: token })
-  if(blacklistToken)
+  if (blacklistToken)
     return res.status(401).json({ message: 'Unauthorized.' });
 
-  if(!token)
+  if (!token)
     return res.status(401).json({ message: 'Unauthorized.' });
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    const user = await userModel.findOne({ _id: decoded._id});
-    
+    const user = await userModel.findOne({ _id: decoded._id });
+
 
     if (!user) {
       throw new Error();
-    } 
+    }
     req.user = user;
     return next();
   } catch (error) {
@@ -32,15 +32,20 @@ module.exports.authUser = async (req, res, next) => {
 module.exports.authCaptain = async (req, res, next) => {
   const token = req.cookies.token || req.header('Authorization')?.replace('Bearer ', '');
 
-  if(!token)
+  const blacklistToken = await blacklistTokenModel.findOne({ token: token })
+  if (blacklistToken)
+    return res.status(401).json({ message: 'Unauthorized.' });
+  
+  if (!token)
     return res.status(401).json({ message: 'Unauthorized.' });
 
   try {
-    const decoded = JWT.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const captain = await captainModel.findOne({ _id: decoded._id });
-    if(!captain) {
+    if (!captain) {
       throw new Error();
     }
+
     req.captain = captain;
     return next()
 

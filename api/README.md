@@ -385,3 +385,88 @@ The request body should be a JSON object containing the following fields:
 
 - `500 Internal Server Error`: Server error.
   - Body: JSON object containing the error message.
+
+### GET /captains/profile
+
+#### Description
+This endpoint is used to get the profile of the authenticated captain.
+
+#### Request Headers
+- `Authorization` (string, required): The Bearer token for the authenticated captain.
+
+#### Example Request
+```
+GET /captains/profile
+Authorization: Bearer your_jwt_token
+```
+
+#### Responses
+
+- `200 OK`: Captain profile successfully retrieved.
+  - Body: JSON object containing the captain details.
+  - Example:
+    ```json
+    {
+      "_id": "captain_id",
+      "fullname": {
+        "firstname": "Jane",
+        "lastname": "Doe"
+      },
+      "email": "jane.doe@example.com",
+      "vehicle": {
+        "color": "red",
+        "plate": "XYZ123",
+        "capacity": 4,
+        "vehicleType": "car"
+      }
+    }
+    ```
+
+- `401 Unauthorized`: Unauthorized access.
+  - Body: JSON object containing the error message.
+  - Example:
+    ```json
+    {
+      "message": "Unauthorized."
+    }
+    ```
+
+- `500 Internal Server Error`: Server error.
+  - Body: JSON object containing the error message.
+
+### GET /captains/logout
+
+#### Description
+This endpoint is used to log out the authenticated captain.
+
+#### Request Headers
+- `Authorization` (string, required): The Bearer token for the authenticated captain.
+
+#### Example Request
+```
+GET /captains/logout
+Authorization: Bearer your_jwt_token
+```
+
+#### Responses
+
+- `200 OK`: Captain successfully logged out.
+  - Body: JSON object containing the success message.
+  - Example:
+    ```json
+    {
+      "message": "Captain logged out."
+    }
+    ```
+
+- `401 Unauthorized`: Unauthorized access.
+  - Body: JSON object containing the error message.
+  - Example:
+    ```json
+    {
+      "message": "Unauthorized."
+    }
+    ```
+
+- `500 Internal Server Error`: Server error.
+  - Body: JSON object containing the error message.

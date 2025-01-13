@@ -142,3 +142,82 @@ The request body should be a JSON object containing the following fields:
 
 - `500 Internal Server Error`: Server error.
   - Body: JSON object containing the error message.
+
+### GET /users/profile
+
+#### Description
+This endpoint is used to get the profile of the authenticated user.
+
+#### Request Headers
+- `Authorization` (string, required): The Bearer token for the authenticated user.
+
+#### Example Request
+```
+GET /users/profile
+Authorization: Bearer your_jwt_token
+```
+
+#### Responses
+
+- `200 OK`: User profile successfully retrieved.
+  - Body: JSON object containing the user details.
+  - Example:
+    ```json
+    {
+      "_id": "user_id",
+      "fullname": {
+        "firstname": "John",
+        "lastname": "Doe"
+      },
+      "email": "john.doe@example.com"
+    }
+    ```
+
+- `401 Unauthorized`: Unauthorized access.
+  - Body: JSON object containing the error message.
+  - Example:
+    ```json
+    {
+      "message": "Unauthorized."
+    }
+    ```
+
+- `500 Internal Server Error`: Server error.
+  - Body: JSON object containing the error message.
+
+### GET /users/logout
+
+#### Description
+This endpoint is used to log out the authenticated user.
+
+#### Request Headers
+- `Authorization` (string, required): The Bearer token for the authenticated user.
+
+#### Example Request
+```
+GET /users/logout
+Authorization: Bearer your_jwt_token
+```
+
+#### Responses
+
+- `200 OK`: User successfully logged out.
+  - Body: JSON object containing the success message.
+  - Example:
+    ```json
+    {
+      "message": "Logout successfully"
+    }
+    ```
+
+- `401 Unauthorized`: Unauthorized access.
+  - Body: JSON object containing the error message.
+  - Example:
+    ```json
+    {
+      "message": "Unauthorized."
+    }
+    ```
+
+- `500 Internal Server Error`: Server error.
+  - Body: JSON object containing the error message.

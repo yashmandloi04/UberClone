@@ -2,7 +2,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 const express = require('express');
 const cors = require('cors');
-require('./Config/Conn')
+// require('./Config/Conn')
 const app = express();
 const cookieParser = require('cookie-parser')
 

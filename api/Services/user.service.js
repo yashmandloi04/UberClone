@@ -16,3 +16,9 @@ module.exports.createUser = async ({
   })
   return user
 }
+
+module.exports.isUserRegistered = async (email) => {
+  if (!email) throw new Error('Email is required.')
+  const user = await userModel.findOne({ email })
+  return user ? true : false
+}

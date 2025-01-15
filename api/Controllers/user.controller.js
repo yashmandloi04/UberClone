@@ -10,17 +10,21 @@ module.exports.registerUser = async (req, res, next) => {
     return res.status(400).json({ errors: errors.array() })
 
   const { fullname, email, password } = req.body
-
   const isRegistered = await userService.isUserRegistered({ email })
-    (isRegistered) ? res.status(400).send('User already registered') : null;
+
+  if (isRegistered) {
+    res.status(400).send('User already registered')
+  }
 
   const hashPassword = await userModel.hashPassword(password)
+  
   const user = await userService.createUser({
     firstname: fullname.firstname,
     lastname: fullname.lastname,
-    email,
+    email: email,
     password: hashPassword,
   })
+
   const token = await user.generateAuthToken();
   return res.status(201).json({ token, user })
 }

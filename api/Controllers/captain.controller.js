@@ -29,7 +29,11 @@ module.exports.registerCaptain = async (req, res) => {
   })
   const token = captain.generateAuthToken()
 
-    (!token) ? res.status(500).send('Internal server error') : res.status(201).send({ token, captain });
+    if(!token){
+      res.status(500).send('Internal server error')
+    }
+
+    res.status(201).send({ token, captain });
 }
 
 module.exports.loginCaptain = async (req, res) => {

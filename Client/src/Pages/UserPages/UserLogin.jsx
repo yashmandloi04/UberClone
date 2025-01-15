@@ -1,11 +1,15 @@
-import React, { useRef, useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import React, { useContext, useRef, useState } from 'react'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
 import LoginValidation from '../../Schemas/LoginValidation'
 import SpinnerSm from '../../Components/Svg/SpinnerSm'
 import { use } from 'react'
+import { userLoginService } from '../../Services/UserServices'
+import { UserContext } from '../../Context/UserContext'
 
 const UserLogin = () => {
+  const navigate = useNavigate()
+  const { setUser } = useContext(UserContext)
   let [showLoginLoader, setShowLoginLoader] = useState(false)
   let emailfield = useRef(null)
   let passwordfield = useRef(null)
@@ -16,8 +20,15 @@ const UserLogin = () => {
       email: '',
       password: '',
     },
-    onSubmit: (FrmData) => {
+    onSubmit: async (FrmData) => {
       setShowLoginLoader(true)
+      const response = await userLoginService(FrmData)
+      if(response.request.status === 200){
+        let data = response.data
+        setUser(data.user)
+        localStorage.setItem('access-user', data.token)
+        navigate('/home')
+      }
       setShowLoginLoader(false)
       emailfield.current.value = ''
       passwordfield.current.value = ''

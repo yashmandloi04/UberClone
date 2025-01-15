@@ -1,11 +1,14 @@
-import React, { useRef, useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import React, { useRef, useState, useContext } from 'react'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
 import UserRegisterValidation from '../../Schemas/UserRegisterValidation'
 import SpinnerSm from '../../Components/Svg/SpinnerSm'
-import { use } from 'react'
+import { userRegisterService } from '../../Services/UserServices'
+import { UserContext } from '../../Context/UserContext'
 
 const UserSignup = () => {
+  const navigate = useNavigate()
+  const { setUser } = useContext(UserContext)
   let [showLoginLoader, setShowLoginLoader] = useState(false)
   let firstnamefield = useRef(null)
   let lastnamefield = useRef(null)
@@ -20,9 +23,24 @@ const UserSignup = () => {
       email: '',
       password: '',
     },
-    onSubmit: (FrmData) => {
+    onSubmit: async (FrmData) => {
       setShowLoginLoader(true)
-      console.log(FrmData)
+      const newUser = {
+        fullname: {
+          firstname: FrmData.firstname,
+          lastname: FrmData.lastname,
+        },
+        email: FrmData.email,
+        password: FrmData.password,
+      }
+      const response = await userRegisterService(newUser)
+
+      if (response.request.status === 201) {
+        let data = response.data
+        setUser(data.user)
+        localStorage.setItem('access-user', data.token)
+        navigate('/home')
+      }
       setShowLoginLoader(false)
       firstnamefield.current.value = ''
       lastnamefield.current.value = ''
@@ -88,12 +106,13 @@ const UserSignup = () => {
             />
             {LoginFrm.errors.password && LoginFrm.touched.password && <small className='text-red-500 text-sm'>{LoginFrm.errors.password}</small>}
           </div>
+
           <button
             type='submit'
             className='bg-[#111] text-white flex justify-center font-semibold mb-3 rounded-md px-4 py-2 space-x-3 w-full text-lg placeholder:text-base'
-          ><span>Login</span>
+          ><span>Create Account</span>
             {showLoginLoader && <SpinnerSm />}
-          </button>
+           </button>
 
         </form>
         <p className='text-center'>Already have an account? <NavLink to='/login' className='text-blue-600'>Login here</NavLink></p>

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { userProfileService } from '../../Services/UserServices'
 import { UserContext } from '../../Context/UserContext'
-import SpinnerXl from '../../Components/Svg/SpinnerXl'
+import InfiniteSpinner from '../../Components/Svg/InfiniteSpinner'
 
 const UserProtectedModule = () => {
   const navigate = useNavigate()
@@ -21,6 +21,7 @@ const UserProtectedModule = () => {
     let response = await userProfileService()
     const data = response.data
     if (response.request.status === 200) {
+      console.log(data)
       setUser(data.user)
       setIsLoading(false)
     }else{
@@ -31,7 +32,7 @@ const UserProtectedModule = () => {
   return (
     isLoading
     ?
-    <SpinnerXl />
+    <InfiniteSpinner />
     :
     <Outlet />
   )

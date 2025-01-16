@@ -2,8 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { captainProfileService } from '../../Services/CaptainServices'
 import { CaptainContext } from '../../Context/CaptainContext'
-import { use } from 'react'
-import SpinnerXl from '../../Components/Svg/SpinnerXl'
+import InfiniteSpinner from '../../Components/Svg/InfiniteSpinner'
 
 const CaptainProtectedModule = () => {
   const navigate = useNavigate()
@@ -32,7 +31,7 @@ const CaptainProtectedModule = () => {
   return (
     isLoading
       ?
-      <SpinnerXl />
+      <InfiniteSpinner />
       :
       <Outlet />
   )

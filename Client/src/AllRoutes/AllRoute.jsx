@@ -11,6 +11,7 @@ import UserLogout from '../Pages/UserPages/UserLogout'
 import CaptainHome from '../Pages/CaptainPages/CaptainHome'
 import CaptainProtectedModule from '../Pages/Modules/CaptainProtectedModule'
 import CaptainLogout from '../Pages/CaptainPages/CaptainLogout'
+import Riding from '../Pages/UserPages/Riding'
 
 const AllRoute = () => {
   return <Routes>
@@ -22,6 +23,7 @@ const AllRoute = () => {
     <Route element={<UserProtectedModule />}>
       <Route path='home' element={<Home />} />
       <Route path='logout' element={<UserLogout />} />
+      <Route path='riding' element={<Riding />} />
     </Route>
     <Route element={<CaptainProtectedModule />}>
       <Route path='captain-home' element={<CaptainHome />} />

@@ -1,4 +1,5 @@
 import './index.css'
+import 'remixicon/fonts/remixicon.css'
 import { createRoot } from 'react-dom/client'
 import { StrictMode } from 'react'
 import UserContextProvider from './Context/UserContext.jsx'
